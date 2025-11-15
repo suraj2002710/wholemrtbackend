@@ -66,6 +66,7 @@ const allowedOrigins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5173",
+    "https://wholemrt.vercel.app",
     "https://ave-catering.vercel.app",
     "https://ave-catering1.vercel.app",
     process.env.FRONTEND_URL,
