@@ -33,7 +33,7 @@ export const uploadToCloudinary = async (
   options = {}
 ): Promise<CloudinaryUploadResult> => {
   return new Promise((resolve, reject) => {
-    const uploadOptions = {
+    const uploadOptions:any = {
       resource_type: "auto",
       folder: "ave-catering/products",
       ...options,
