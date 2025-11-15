@@ -169,7 +169,7 @@ app.use("/api/banners", bannerRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = parseInt(process.env.PORT || "5001");
+// const PORT = parseInt(process.env.PORT || "5001");
 
 // Start server
 // const server = app.listen(PORT, "0.0.0.0", () => {
@@ -189,8 +189,8 @@ const gracefulShutdown = (signal: string) => {
   // });
 };
 
-process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
-process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+// process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+// process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 export default app;
 
