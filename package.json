@@ -8,7 +8,7 @@
   "start": "node dist/server.js",
   "dev": "nodemon --exec \"tsx server.ts\"",
   "build": "tsc",
-  "postbuild": "cp package.json dist/",
+  
   "lint": "eslint . --ext .ts",
   "type-check": "tsc --noEmit",
   "clean": "rm -rf dist",
