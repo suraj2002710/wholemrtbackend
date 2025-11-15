@@ -172,21 +172,21 @@ app.use(errorHandler);
 const PORT = parseInt(process.env.PORT || "5001");
 
 // Start server
-const server = app.listen(PORT, "0.0.0.0", () => {
+// const server = app.listen(PORT, "0.0.0.0", () => {
 
-  logger.info(
-    `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-  );
-  logger.info(`📊 Health check available at http://localhost:${PORT}/health`);
-});
+//   logger.info(
+//     `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+//   );
+//   logger.info(`📊 Health check available at http://localhost:${PORT}/health`);
+// });
 
 // Graceful shutdown handler
 const gracefulShutdown = (signal: string) => {
   logger.info(`${signal} received, shutting down gracefully`);
-  server.close(() => {
-    logger.info("Process terminated");
-    process.exit(0);
-  });
+  // server.close(() => {
+  //   logger.info("Process terminated");
+  //   process.exit(0);
+  // });
 };
 
 process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
