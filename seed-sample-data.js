@@ -57,13 +57,13 @@ const sampleCategories = [
   {
     name: 'Mexican Items',
     description: 'Authentic Mexican products',
-    slug: 'mexican-items',
+    slug: 'MexicanItems',
     isActive: true
   },
   {
     name: 'Ice Cream & Frozen',
     description: 'Ice cream and frozen foods',
-    slug: 'ice-cream-frozen',
+    slug: 'icecreamfrozen',
     isActive: true
   }
 ];
