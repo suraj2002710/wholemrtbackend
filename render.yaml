@@ -26,5 +26,5 @@ services:
         sync: false  # Mark as secret - set this in Render Dashboard
       # CORS Configuration
       - key: FRONTEND_URL
-        value: https://ave-catering.vercel.app
+        value: https://wholemrt.vercel.app
     healthCheckPath: /health
