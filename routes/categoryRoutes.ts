@@ -10,14 +10,15 @@ import {
   getCategoryTree,
 } from "../controllers/categoryController.js";
 import { uploadSingle } from "../middleware/uploadMiddleware.js";
+import { admin, protect } from "../middleware/authMiddleware.js";
 // import { protect, admin } from '../middleware/authMiddleware.js'; // Uncomment when auth is needed
 
 // Admin routes (protected) - must come before /:slug route
-router.route("/admin").get(getCategoriesWithSubcategories); // Get all categories for admin
-router.route("/admin/create").post(uploadSingle, createCategory); // Add auth: protect, admin, 
+router.route("/admin").get(protect, admin,getCategoriesWithSubcategories); // Get all categories for admin
+router.route("/admin/create").post(protect, admin,uploadSingle, createCategory); // Add auth: protect, admin, 
 router.route("/admin/:id")
-  .put(uploadSingle, updateCategory) // Add auth: protect, admin,
-  .delete(deleteCategory); // Add auth: protect, admin,
+  .put(protect, admin,uploadSingle, updateCategory) // Add auth: protect, admin,
+  .delete(protect, admin,deleteCategory); // Add auth: protect, admin,
 
 // Public routes
 router.route("/").get(getCategories);

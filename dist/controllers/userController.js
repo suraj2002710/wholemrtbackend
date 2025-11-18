@@ -26,13 +26,21 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password, businessName, phone } = req.body;
+    // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
         res.status(400);
-        throw new Error('User already exists');
+        throw new Error("User already exists");
     }
+    // Check how many users exist → if 0, make first admin
+    const totalUsers = await User.countDocuments();
+    let userRole = "user";
+    if (totalUsers === 0) {
+        userRole = "admin"; // First user → ADMIN
+    }
+    // Create new user
     const user = await User.create({
-        role: 'admin',
+        role: userRole,
         name,
         email,
         password,
@@ -44,13 +52,14 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.role === 'admin',
+            role: user.role,
+            isAdmin: user.role === "admin",
             token: generateToken(user._id),
         });
     }
     else {
         res.status(400);
-        throw new Error('Invalid user data');
+        throw new Error("Invalid user data");
     }
 });
 // @desc    Get user profile
