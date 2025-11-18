@@ -43,6 +43,9 @@ const bannerSchema = new Schema({
     endDate: {
         type: Date,
     },
+    features: {
+        type: []
+    }
 }, {
     timestamps: true,
 });

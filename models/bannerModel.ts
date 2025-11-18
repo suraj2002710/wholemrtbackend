@@ -14,6 +14,7 @@ export interface IBanner extends Document {
   endDate?: Date;
   createdAt: Date;
   updatedAt: Date;
+  features?: string[];
 }
 
 const bannerSchema = new Schema<IBanner>(
@@ -61,6 +62,9 @@ const bannerSchema = new Schema<IBanner>(
     endDate: {
       type: Date,
     },
+    features: {
+      type: []
+    }
   },
   {
     timestamps: true,
