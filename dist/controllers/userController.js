@@ -13,6 +13,8 @@ const authUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.role === 'admin',
+            role: user.role,
+            status: user.status,
             token: generateToken(user._id),
         });
     }
@@ -46,6 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
         password,
         businessName,
         phone,
+        status: "active",
     });
     if (user) {
         res.status(201).json({
@@ -72,6 +75,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role,
+            status: user.status,
             isAdmin: user.role === 'admin',
         });
     }
