@@ -86,6 +86,7 @@ const allowedOrigins = [
   "https://wholemrt.vercel.app",
   "https://ave-catering.vercel.app",
   "https://ave-catering1.vercel.app",
+  "https://ave-catering-fronted.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean); 
 app.use(

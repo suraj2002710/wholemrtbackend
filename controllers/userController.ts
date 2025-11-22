@@ -17,6 +17,8 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       isAdmin: user.role === 'admin',
+      role: user.role,
+      status: user.status,
       token: generateToken(user._id as string),
     });
   } else {
@@ -54,6 +56,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     password,
     businessName,
     phone,
+    status: "active",
   });
 
   if (user) {
@@ -82,6 +85,8 @@ const getUserProfile = asyncHandler(async (req: any, res: Response) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
+      status: user.status,
       isAdmin: user.role === 'admin',
     });
   } else {
@@ -171,7 +176,7 @@ const updateUser = asyncHandler(async (req: Request, res: Response) => {
   user.status = status !== undefined ? status : user.status;
 
   const updatedUser = await user.save();
-  
+
   res.json({
     _id: updatedUser._id,
     name: updatedUser.name,
@@ -202,8 +207,8 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   }
 
   await User.findByIdAndDelete(req.params.id);
-  
-  res.json({ 
+
+  res.json({
     message: 'User deleted successfully',
     deletedUser: {
       id: user._id,
@@ -233,7 +238,7 @@ const getUserStats = asyncHandler(async (req: Request, res: Response) => {
   // Get recent users (last 30 days)
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  
+
   const recentUsers = await User.countDocuments({
     createdAt: { $gte: thirtyDaysAgo }
   });
