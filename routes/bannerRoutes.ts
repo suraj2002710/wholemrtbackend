@@ -28,4 +28,3 @@ router
   .delete(protect, admin, deleteBanner);
 
 export default router;
-
