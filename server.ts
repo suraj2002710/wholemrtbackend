@@ -31,32 +31,10 @@ import logger from "./utils/logger.js";
 
 
 const app = express();
+// ✅ Body Parser (use ONLY ONCE)
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-
-// Security middleware
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"],
-//         styleSrc: ["'self'", "'unsafe-inline'"],
-//         scriptSrc: ["'self'"],
-//         imgSrc: ["'self'", "data:", "https:"],
-//       },
-//     },
-//     crossOriginEmbedderPolicy: false,
-//   })
-// );
-
-// Rate limiting
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // limit each IP to 100 requests per windowMs
-//   message: "Too many requests from this IP, please try again later.",
-//   standardHeaders: true,
-//   legacyHeaders: false,
-// });
-// app.use(limiter);
 
 
 // Check if environment variables are set
@@ -122,25 +100,6 @@ console.log("Cloudinary Loaded:", process.env.CLOUDINARY_CLOUD_NAME);
 
 
 
-
-
-
-
-// Compression
-// app.use(compression());
-
-// Logging
-// app.use(
-//   morgan("combined", {
-//     stream: { write: (message) => logger.info(message.trim()) },
-//   })
-// );
-
-
-
-// Body parsing
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 // Connect to database
 connectDB();
 // Health check endpoint
@@ -170,6 +129,8 @@ app.use("/api/banners", bannerRoutes);
 // Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
+
+
 
 const PORT = parseInt(process.env.PORT || "5001");
 

@@ -11,12 +11,14 @@ import {
   getBannerStats,
 } from '../controllers/bannerController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import { uploadSingle } from '../middleware/uploadMiddleware.js';
+
 
 // Public routes
 router.get('/public', getPublicBanners);
 
 // Admin routes
-router.route('/').get(protect, admin, getBanners).post(protect, admin, createBanner);
+router.route('/').get(protect, admin, getBanners).post(protect, admin,uploadSingle, createBanner);
 router.route('/stats').get(protect, admin, getBannerStats);
 router.route('/reorder').put(protect, admin, reorderBanners);
 router

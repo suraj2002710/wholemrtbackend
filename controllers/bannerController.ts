@@ -1,6 +1,10 @@
 import asyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
 import Banner from '../models/bannerModel.js';
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "../config/cloudinary.js";
 
 // @desc    Get all banners (public - only active ones)
 // @route   GET /api/banners/public
@@ -110,7 +114,6 @@ const createBanner = asyncHandler(async (req, res) => {
     title,
     subtitle,
     description,
-    image,
     badge,
     link,
     buttonText,
@@ -120,40 +123,65 @@ const createBanner = asyncHandler(async (req, res) => {
     endDate,
   } = req.body;
 
-  // Validate required fields
-  if (!title || !image) {
+  console.log(req?.body)
+  console.log(req?.file)
+
+  if (!title) {
     res.status(400);
-    throw new Error('Title and image are required');
+    throw new Error("Title is required");
+  }
+  console.log('title',title);
+  
+
+  if (!req.file) {
+    res.status(400);
+    throw new Error("Image file is required");
   }
 
-  // Validate dates if provided
-  if (startDate && endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    
-    if (start >= end) {
-      res.status(400);
-      throw new Error('Start date must be before end date');
-    }
+  // UPLOAD IMAGE TO CLOUDINARY
+  let imageUrl = "";
+  let imagePublicId = "";
+
+  try {
+    const upload = await uploadToCloudinary(req?.file?.buffer, {
+      folder: "wholemrt/banners",
+      public_id: `banner_${Date.now()}`,
+    });
+
+    imageUrl = upload.secure_url;
+    imagePublicId = upload.public_id;
+
+  } catch (err) {
+    console.log(err);
+    res.status(400);
+    throw new Error("Image upload failed");
   }
 
   const banner = new Banner({
     title,
     subtitle,
     description,
-    image,
+    image: imageUrl,
     badge,
     link,
     buttonText,
-    order: order !== undefined ? parseInt(order) : undefined,
-    isActive: isActive !== undefined ? isActive : true,
-    startDate: startDate ? new Date(startDate) : undefined,
-    endDate: endDate ? new Date(endDate) : undefined,
+    order: order ? parseInt(order) : 0,
+    isActive: isActive ?? true,
+    startDate: startDate ? new Date(startDate) : null,
+    endDate: endDate ? new Date(endDate) : null,
+    imagePublicId,
   });
 
-  const createdBanner = await banner.save();
-  res.status(201).json(createdBanner);
+  const created = await banner.save();
+
+  res.status(201).json({
+    message: "Banner created successfully",
+    banner: created,
+  });
 });
+
+
+
 
 // @desc    Update banner
 // @route   PUT /api/banners/:id
